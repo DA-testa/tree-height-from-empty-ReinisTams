@@ -4,30 +4,54 @@ import sys
 import threading
 import numpy
 
+#importē nepieciešamās bibliotēkas
 
 def compute_height(n, parents):
-    # Write this function
+    #funkcija aprēķina koka augstumu, ņemot vērā mezglu skaitu un katram mezglam pievienoto vecāko mezglu (parents), Tā atgriež maksimālo koka augstumu.
+
+    heights = [0] * n
+    #Izveido sarakstu ar nosaukumu 'heights', kurā ir nulle katram mezglam, lai turētu katra mezgla augstumu.
+
+    def calculate_height(node):
+        #Šī iekšējā funkcija rekursīvi aprēķina dotā mezgla augstumu koka struktūrā.
+
+        if heights[node] != 0:
+            #Ja mezgla augstums jau ir aprēķināts, atgriež saglabāto vērtību.
+            return heights[node]
+
+        parent = parents[node]
+        #Iegūst dotā mezgla parent mezglu.
+
+        if parent == -1:
+            #Ja "parent" ir -1, tas nozīmē, ka dotais mezgls ir koka sakne.
+            heights[node] = 1
+            #Iestata saknes mezgla augstumu uz 1.
+        else:
+            #Ja parent nav -1, tad aprēķina augstumu.
+            heights[node] = calculate_height(parent) + 1
+            #Dotā mezgla augstums = parent augstums + 1.
+
+        return heights[node]
+        #Atgriež aprēķināto mezgla augstumu.
+
     max_height = 0
-    # Your code here
+    #Inicializē maksimālā augstuma mainīgo ar 0.
+
+    for node in range(n):
+        height = calculate_height(node)
+        #Aprēķina dotā mezgla augstumu, izmantojot calculate_height funkciju.
+        max_height = max(max_height, height)
+        #Atjaunina maksimālo augstumu, ja pašreizējais augstums ir lielāks par iepriekšējo maksimālo augstumu.
+
     return max_height
+    #Atgriež koka maksimālo augstumu.
 
+#Lasa ievadi
+n = int(input())
+#Lasīt mezglu skaitu no ievades.
+parents = list(map(int, input().split()))
+#Lasīt katram mezglam pievienoto parent mezglu no ievades un pārvērš to par veselo skaitu sarakstu.
 
-def main():
-    # implement input form keyboard and from files
-    
-    # let user input file name to use, don't allow file names with letter a
-    # account for github input inprecision
-    
-    # input number of elements
-    # input values in one variable, separate with space, split these values in an array
-    # call the function and output it's result
-    pass
+print(compute_height(n, parents))
+#Izsauc compute_height funkciju, padodot tai ievades vērtības, un izdrukā koka maksimālo augstumu.
 
-# In Python, the default limit on recursion depth is rather low,
-# so raise it here for this problem. Note that to take advantage
-# of bigger stack, we have to launch the computation in a new thread.
-sys.setrecursionlimit(10**7)  # max depth of recursion
-threading.stack_size(2**27)   # new thread will get stack of such size
-threading.Thread(target=main).start()
-main()
-# print(numpy.array([1,2,3]))
