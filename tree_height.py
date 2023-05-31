@@ -7,8 +7,7 @@ import numpy
 #importē nepieciešamās bibliotēkas
 
 def compute_height(n, parents):
-    #Šī funkcija aprēķina koka augstumu, ņemot vērā mezglu skaitu (n) un katram mezglam pievienoto vecāko mezglu (parents).
-    #Tā atgriež maksimālo koka augstumu.
+    #funkcija aprēķina koka augstumu, ņemot vērā mezglu skaitu un katram mezglam pievienoto vecāko mezglu (parents), Tā atgriež maksimālo koka augstumu.
 
     heights = [0] * n
     #Izveido sarakstu ar nosaukumu 'heights', kurā ir nulle katram mezglam, lai turētu katra mezgla augstumu.
